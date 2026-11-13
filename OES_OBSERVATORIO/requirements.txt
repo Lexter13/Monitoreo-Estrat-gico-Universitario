@@ -1,0 +1,9 @@
+# Dependencias del Observatorio de Educación Superior (OES)
+streamlit>=1.35.0
+pandas>=2.2.0
+plotly>=5.22.0
+reportlab>=4.2.0
+pytest>=8.2.0
+openpyxl>=3.1.2
+requests>=2.32.0
+

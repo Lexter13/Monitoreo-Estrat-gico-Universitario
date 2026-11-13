@@ -1,0 +1,43 @@
+sequenceDiagram
+    autonumber
+    actor Analista as Analista OES
+    participant UI as Interfaz Streamlit
+    participant Modulo as Módulo Noticias / Verificaciones
+    participant DB as SQLite (oes.db)
+    participant Auditoria as Triggers de Auditoría
+    participant Reporte as Motor ReportLab / Plotly
+
+    %% Fase de Registro
+    Analista->>UI: Ingresa datos de nueva noticia (Título, Institución, URL, Resumen)
+    UI->>Modulo: registrar_noticia(...)
+    Modulo->>Modulo: Valida obligatoriedad y formato regex de URL
+    Modulo->>DB: Comprueba si URL ya existe (Restricción UNIQUE)
+    alt URL ya existe (Prueba P1)
+        DB-->>Modulo: Registro duplicado detectado
+        Modulo-->>UI: Retorna Error: "Ya existe una noticia con esta URL"
+        UI-->>Analista: Alerta visual de duplicado rechazado
+    else URL nueva y válida (Prueba P6)
+        DB->>DB: INSERT INTO noticias (...)
+        DB->>Auditoria: Dispara Trigger trg_noticias_audit_insert
+        Auditoria->>DB: INSERT INTO auditoria (operacion='INSERT')
+        DB-->>Modulo: Confirmación e ID generado
+        Modulo-->>UI: Retorna éxito con ID asignado
+        UI-->>Analista: Mensaje de confirmación y ficha creada
+    end
+
+    %% Fase de Verificación Ética
+    Analista->>UI: Selecciona noticia y emite dictamen ('Verificada' / 'Observada')
+    UI->>Modulo: registrar_verificacion(noticia_id, estado, responsable, obs)
+    Modulo->>DB: INSERT INTO verificaciones (...)
+    DB->>DB: Trigger sincroniza noticias.estado_verificacion
+    DB->>Auditoria: Registra evento en bitácora
+    DB-->>UI: Estado actualizado
+
+    %% Fase de Consulta y Reportes
+    Analista->>UI: Aplica filtros combinados (Categoría, Fechas, Estado)
+    UI->>DB: Consulta parametrizada con SELECT
+    DB-->>UI: Dataset filtrado
+    UI->>Reporte: Solicita compilación de informe ejecutivo
+    Reporte-->>UI: Binario PDF con indicadores y tabla filtrada
+    UI-->>Analista: Descarga inmediata de informe PDF y CSV
+

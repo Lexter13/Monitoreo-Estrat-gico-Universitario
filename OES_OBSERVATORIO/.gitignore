@@ -1,0 +1,29 @@
+# Entornos virtuales
+.venv/
+env/
+venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Base de datos local (descomentar si se desea excluir la base en git)
+# database/oes.db
+# oes.db
+
+# Reportes y temporales generados
+reports/*.pdf
+evidencias/*.png
+evidencias/*.jpg
+*.zip
+
+# Variables de entorno
+.env
+

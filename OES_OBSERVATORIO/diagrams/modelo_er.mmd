@@ -1,0 +1,68 @@
+erDiagram
+    instituciones ||--o{ noticias : "origina / publica"
+    fuentes ||--o{ noticias : "difunde"
+    noticias ||--o{ verificaciones : "es auditada en"
+    noticias ||--o{ auditoria : "registra eventos en"
+
+    instituciones {
+        int id PK "Clave Primaria Autoincremental"
+        string nombre UK "Nombre oficial de la entidad"
+        string tipo "Universidad pública | privada | Ente rector"
+        string siglas "Acrónimo oficial"
+        string region "Ámbito geográfico"
+        string estado_licenciamiento "Licenciada | En proceso | Denegada"
+        string sitio_web "URL institucional"
+        string fecha_registro "Marca de tiempo"
+    }
+
+    fuentes {
+        int id PK "Clave Primaria Autoincremental"
+        string nombre UK "Nombre del medio o portal"
+        string tipo_fuente "Portal institucional | Boletín | Diario"
+        string url_base "URL del portal raíz"
+        string confiabilidad "Alta | Media | En verificación"
+        string fecha_registro "Marca de tiempo"
+    }
+
+    noticias {
+        int id PK "Clave Primaria Autoincremental"
+        string titulo "Titular informativo"
+        string institucion "Nombre textual de la institución"
+        string categoria "Ente rector | Univ. pública | privada"
+        string fuente "Nombre textual del medio"
+        string fecha "Fecha de publicación (YYYY-MM-DD)"
+        string url UK "URL única canónica (Evita duplicados P1)"
+        string resumen "Síntesis del hecho"
+        int institucion_id FK "Referencia a instituciones(id)"
+        int fuente_id FK "Referencia a fuentes(id)"
+        string estado_verificacion "Pendiente | Verificada | Observada"
+        int es_demostrativo "1=Dato didáctico Lab | 0=Real verificado"
+        string prioridad "Alta | Media | Baja"
+        string impacto_regulatorio "Alto | Medio | Informativo"
+        string palabras_clave "Términos para alertas"
+        string fecha_captura "Marca temporal del ingreso"
+    }
+
+    verificaciones {
+        int id PK "Clave Primaria Autoincremental"
+        int noticia_id FK "Referencia a noticias(id)"
+        string estado "Pendiente | Verificada | Observada"
+        string responsable "Nombre del auditor o analista"
+        string fecha_verificacion "Fecha del dictamen"
+        string observaciones "Justificación técnica"
+        string evidencia_url "Soporte documental"
+        string criterio_evaluado "Criterio metodológico"
+        string fecha_registro "Marca de tiempo"
+    }
+
+    auditoria {
+        int id PK "Clave Primaria Autoincremental"
+        string tabla "Tabla afectada"
+        string operacion "INSERT | UPDATE | DELETE | VERIFICACION"
+        int registro_id "ID del registro intervenido"
+        string detalles "Descripción forense del cambio"
+        string usuario "Identidad del operador"
+        string ip_origen "Dirección IP"
+        string fecha_hora "Marca de tiempo inmutable"
+    }
+

@@ -1,0 +1,56 @@
+flowchart TD
+    subgraph S1["1. FUENTES OFICIALES Y REGULATORIAS"]
+        F1["SUNEDU / MINEDU"]
+        F2["Diario Oficial El Peruano"]
+        F3["CONCYTEC / PRONABEC"]
+        F4["Portales Universitarios (UNMSM, PUCP, UNI, etc.)"]
+    end
+
+    subgraph S2["2. CAPTURA CONTROLADA Y VALIDACIÓN"]
+        C1["Ingreso Estructurado de Noticias"]
+        C2["Validador de Campos Obligatorios"]
+        C3["Control Antiduplicados (Restricción UNIQUE URL)"]
+        C4["Normalizador de Metadatos"]
+    end
+
+    subgraph S3["3. SUPERVISIÓN Y CONTROL ÉTICO (HUMAN-IN-THE-LOOP)"]
+        V1["Evaluación de Trazabilidad"]
+        V2["Clasificación de Estado: Pendiente / Verificada / Observada"]
+        V3["Firma de Analista Responsable y Observaciones"]
+    end
+
+    subgraph S4["4. ALMACENAMIENTO RELACIONAL (SQLite)"]
+        D1[("instituciones")]
+        D2[("fuentes")]
+        D3[("noticias")]
+        D4[("verificaciones")]
+        D5[("auditoria (Triggers Inmutables)")]
+    end
+
+    subgraph S5["5. MOTOR ANALÍTICO Y APLICACIÓN WEB (Streamlit)"]
+        A1["Tableros Interactivos Plotly"]
+        A2["Filtros Dinámicos Combinados"]
+        A3["Detector de Alertas Regulatorias Tempranas"]
+        A4["Análisis Asistido por Reglas (Deterministic NLP)"]
+    end
+
+    subgraph S6["6. SALIDAS Y TOMA DE DECISIONES"]
+        O1["Dashboard Ejecutivo en Tiempo Real"]
+        O2["Exportación CSV (Excel UTF-8 BOM)"]
+        O3["Informes Técnicos Oficiales en PDF (ReportLab)"]
+        O4["Bitácora Forense de Auditoría"]
+    end
+
+    S1 --> S2
+    S2 --> S3
+    S3 --> S4
+    S4 --> S5
+    S5 --> S6
+
+    style S1 fill:#E2E8F0,stroke:#64748B,stroke-width:1px
+    style S2 fill:#E0F2FE,stroke:#0284C7,stroke-width:1px
+    style S3 fill:#FEF3C7,stroke:#D97706,stroke-width:1px
+    style S4 fill:#DCFCE7,stroke:#16A34A,stroke-width:1px
+    style S5 fill:#F1F5F9,stroke:#1A365D,stroke-width:1px
+    style S6 fill:#EDE9FE,stroke:#7C3AED,stroke-width:1px
+
